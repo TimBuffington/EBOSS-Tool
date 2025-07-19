@@ -9,7 +9,6 @@
     box-sizing: border-box;
 }
 .form-container div {
-    padding: 0.5rem;
     box-sizing: border-box;
     max-width: 100%;
 }
@@ -1280,7 +1279,7 @@ st.markdown('<div class="main-container">', unsafe_allow_html=True)
 
 # Header with logo on separate line
 st.markdown('<div class="logo-container" style="text-align: center; margin-bottom: 1rem;">', unsafe_allow_html=True)
-st.image("/files/ANA-ENERGY-LOGO-PADDED.png", width=200)
+st.image("ANA-ENERGY-LOGO-PADDED.png", width=200)
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Title in styled container
