@@ -1,4 +1,5 @@
 
+st.markdown("""
 <style>
 .stColumn {
     flex: 1 1 0%;
@@ -13,6 +14,7 @@
     max-width: 100%;
 }
 </style>
+""", unsafe_allow_html=True)
 
 import streamlit as st
 
@@ -49,7 +51,7 @@ if 'pm_charge_enabled' not in st.session_state:
 
 # Page configuration
 st.set_page_config(
-    page_title="EBOSS® Model Selection Tool",
+    page_title="EBOSS Model Selection Tool",
     page_icon="⚡",
     layout="wide",
     initial_sidebar_state="collapsed"
@@ -97,7 +99,6 @@ st.markdown("""
     
     /* Main app styling */
     .stApp {
-        background: linear-gradient(135deg, var(--black-asphalt) 0%, var(--charcoal) 100%);
         font-family: 'Inter', sans-serif;
     }
     
@@ -153,7 +154,6 @@ st.markdown("""
         border-radius: 8px !important;
         color: var(--alpine-white) !important;
         font-family: Arial, sans-serif !important;
-        font-weight: 500 !important;
         box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 2px 4px rgba(0,0,0,0.3) !important;
         text-shadow: 1px 1px 2px rgba(0,0,0,0.6) !important;
     }
@@ -196,7 +196,6 @@ st.markdown("""
     
     /* Enhanced Button styling */
     .stButton > button {
-        background: linear-gradient(135deg, var(--energy-green) 0%, #6ba534 100%);
         color: var(--alpine-white);
         border: none;
         border-radius: 8px;
@@ -212,7 +211,6 @@ st.markdown("""
     }
     
     .stButton > button:hover {
-        background: linear-gradient(135deg, #6ba534 0%, var(--energy-green) 100%);
         transform: translateY(-2px);
         box-shadow: 0 8px 16px rgba(129, 189, 71, 0.6), inset 0 1px 2px rgba(255,255,255,0.3);
     }
@@ -284,7 +282,6 @@ st.markdown("""
     
     /* Info boxes */
     .info-box {
-        background: linear-gradient(135deg, var(--energy-green) 0%, #6ba534 100%);
         color: var(--alpine-white);
         padding: 1rem;
         border-radius: 8px;
@@ -293,7 +290,6 @@ st.markdown("""
     }
     
     .warning-box {
-        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
         color: var(--alpine-white);
         padding: 1rem;
         border-radius: 8px;
@@ -351,7 +347,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# EBOSS® Load Calculation Reference Data
+# EBOSS Load Calculation Reference Data
 EBOSS_LOAD_REFERENCE = {
     "battery_capacities": {
         "EB25 kVA": 15,
@@ -485,7 +481,7 @@ STANDARD_GENERATOR_DATA = {
 def interpolate_gph(generator_kva, load_percent):
     """
     Interpolate GPH fuel consumption based on generator kVA and load percentage
-    Uses authentic EBOSS® GPH interpolation data from working_Accurate_Fuel_Calc_1752711064907.xlsx
+    Uses authentic EBOSS GPH interpolation data from working_Accurate_Fuel_Calc_1752711064907.xlsx
     """
     # Convert load percent to decimal if needed
     if load_percent > 1:
@@ -559,7 +555,7 @@ def calculate_charge_rate(eboss_model, eboss_type, generator_kva=None, custom_ra
 def get_max_charge_rate(eboss_model, eboss_type, generator_kva=None):
     """Get maximum allowed charge rate using model-specific limits, with 98% generator kW as fallback"""
     
-    # EBOSS® model specific maximum charge rates from the table
+    # EBOSS model specific maximum charge rates from the table
     model_max_charge_rates = {
         "EB25 kVA": 20,
         "EB70 kVA": 45,
@@ -606,7 +602,7 @@ def calculate_standard_generator_specs(standard_generator_size, continuous_load,
     engine_load_percent = (continuous_load / gen_kw * 100) if gen_kw > 0 else 0
     load_percentage = continuous_load / gen_kw if gen_kw > 0 else 0
     
-    # Use same interpolation method as EBOSS® for consistency
+    # Use same interpolation method as EBOSS for consistency
     fuel_gph_data = gen_data["fuel_consumption_gph"]
     if load_percentage <= 0.5:
         fuel_per_hour = fuel_gph_data["50%"]
@@ -649,9 +645,9 @@ def calculate_standard_generator_specs(standard_generator_size, continuous_load,
     }
 
 def calculate_load_specs(eboss_model, eboss_type, continuous_load, max_peak_load, generator_kva=None, custom_charge_rate=None):
-    """Calculate load-based specifications using authentic EBOSS® reference data"""
+    """Calculate load-based specifications using authentic EBOSS reference data"""
     
-    # Get EBOSS® model capacity based on generator size and max continuous load
+    # Get EBOSS model capacity based on generator size and max continuous load
     generator_kw_mapping = {
         "EB25 kVA": 14.5,   # Gen Size 25 kVA
         "EB70 kVA": 24.5,   # Gen Size 45 kVA  
@@ -674,11 +670,11 @@ def calculate_load_specs(eboss_model, eboss_type, continuous_load, max_peak_load
     # Calculate charge rate using new formula
     charge_rate = calculate_charge_rate(eboss_model, eboss_type, generator_kva, custom_charge_rate)
     
-    # Calculate fuel consumption and engine load based on EBOSS® model's paired generator
+    # Calculate fuel consumption and engine load based on EBOSS model's paired generator
     fuel_consumption = None
     engine_load_percent = 0
     
-    # Get the appropriate generator size for this EBOSS® model
+    # Get the appropriate generator size for this EBOSS model
     paired_generator_kva = EBOSS_LOAD_REFERENCE["generator_kva_hybrid"].get(eboss_model, 0)
     if paired_generator_kva > 0:
         # Get paired generator data
@@ -724,7 +720,7 @@ def calculate_load_specs(eboss_model, eboss_type, continuous_load, max_peak_load
         "generator_data": generator_data
     }
 
-# EBOSS® Specifications Data
+# EBOSS Specifications Data
 EBOSS_SPECS = {
     "EB25 kVA": {
         "Hybrid Energy System": "ANA EBOSS",
@@ -747,7 +743,7 @@ EBOSS_SPECS = {
         "Operating Temperature": "-4°F to 113°F (-20°C to 45°C)",
         "Dimensions (L x W x H)": "108\" x 45\" x 62\"",
         "Weight": "8,200 lbs",
-        "Warranty - EBOSS® only": "2 Years",
+        "Warranty - EBOSS only": "2 Years",
         "Warranty - With trailer & generator": "2 Years, 2000 Hours",
         "Battery warranty": "7 Years",
         "Service & Support": "24/7, 365 Days",
@@ -774,7 +770,7 @@ EBOSS_SPECS = {
         "Operating Temperature": "-4°F to 113°F (-20°C to 45°C)",
         "Dimensions (L x W x H)": "108\" x 60\" x 62\"",
         "Weight": "13,200 lbs",
-        "Warranty - EBOSS® only": "2 Years",
+        "Warranty - EBOSS only": "2 Years",
         "Warranty - With trailer & generator": "2 Years, 2000 Hours",
         "Battery warranty": "7 Years",
         "Service & Support": "24/7, 365 Days",
@@ -801,7 +797,7 @@ EBOSS_SPECS = {
         "Operating Temperature": "-4°F to 113°F (-20°C to 45°C)",
         "Dimensions (L x W x H)": "144\" x 60\" x 62\"",
         "Weight": "18,200 lbs",
-        "Warranty - EBOSS® only": "2 Years",
+        "Warranty - EBOSS only": "2 Years",
         "Warranty - With trailer & generator": "2 Years, 2000 Hours",
         "Battery warranty": "7 Years",
         "Service & Support": "24/7, 365 Days",
@@ -828,7 +824,7 @@ EBOSS_SPECS = {
         "Operating Temperature": "-4°F to 113°F (-20°C to 45°C)",
         "Dimensions (L x W x H)": "192\" x 60\" x 62\"",
         "Weight": "29,200 lbs",
-        "Warranty - EBOSS® only": "2 Years",
+        "Warranty - EBOSS only": "2 Years",
         "Warranty - With trailer & generator": "2 Years, 2000 Hours",
         "Battery warranty": "7 Years",
         "Service & Support": "24/7, 365 Days",
@@ -891,7 +887,7 @@ if 'show_generator_dialog' not in st.session_state:
 if 'paired_generator' not in st.session_state:
     st.session_state.paired_generator = None
 
-# EBOSS® to Standard Generator Pairing (ascending order: 25, 65, 125, 220, 400 kVA)
+# EBOSS to Standard Generator Pairing (ascending order: 25, 65, 125, 220, 400 kVA)
 EBOSS_STANDARD_PAIRING = {
     "EB25 kVA": "25 kVA / 20 kW",
     "EB70 kVA": "65 kVA / 52 kW", 
@@ -907,11 +903,11 @@ def generator_selection_dialog():
     st.markdown('<div class="form-container">', unsafe_allow_html=True)
     st.markdown('<h3 class="form-section-title">🔄 Generator Selection</h3>', unsafe_allow_html=True)
     
-    st.markdown(f"""
+    st.markdown("""
     <div class="info-box">
     For the <strong>{st.session_state.eboss_model}</strong> model, the recommended standard generator comparison is:<br>
     <strong>{paired_gen}</strong>
-    </div>
+    # Removed stray HTML closing tag that caused syntax error
     """, unsafe_allow_html=True)
     
     col1, col2 = st.columns([1, 1])
@@ -934,39 +930,32 @@ def generator_selection_dialog():
         st.session_state.show_generator_dialog = False
         st.rerun()
     
-    st.markdown('</div>', unsafe_allow_html=True)
-st.markdown("""
-<div style='text-align:right; margin-bottom: 1rem;'>
-    <button onclick="window.print()" style="background-color: #636569; border: none; color: white; padding: 0.5rem 1.2rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer;">
-        Print Analysis
-    </button>
-</div>
-""", unsafe_allow_html=True)
-
-    </button>
-</div>
-
-Cost Analysis
-
-<div style='text-align:center; margin-top:1.5rem;'>
-    <a href="https://anacorp.com/contact/" target="_blank">
-        <button style="background-color: #81BD47; border: none; color: white; padding: 0.75rem 1.5rem; font-size: 1rem; border-radius: 8px; cursor: pointer;">
-            Contact us for more details
-        </button>
+    st.markdown("""
+<div style='text-align: center; margin-top: 2rem;'>
+    <a href="https://anacorp.com/contact/" target="_blank" style="
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background-color: #81BD47;
+        color: white;
+        font-weight: bold;
+        text-decoration: none;
+        border-radius: 8px;
+        box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+    ">
+        Contact us for more details
     </a>
 </div>
- Setup")
+""", unsafe_allow_html=True)
 def cost_analysis_dialog():
     """Modal dialog for cost analysis with generator selection and input fields"""
     paired_gen = EBOSS_STANDARD_PAIRING.get(st.session_state.eboss_model, "25 kVA / 20 kW")
     
     # Generator selection section
-    st.markdown(f"""
-    <div style="background: rgba(129, 189, 71, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #81BD47; margin-bottom: 1rem;">
+    st.markdown("""
     <strong>Recommended Generator:</strong><br>
     For the <strong>{st.session_state.eboss_model}</strong> model: <strong>{paired_gen}</strong>
-    </div>
-    """, unsafe_allow_html=True)
+</div>
+""", unsafe_allow_html=True)
     
     gen_col1, gen_col2 = st.columns([1, 1])
     
@@ -989,29 +978,14 @@ def cost_analysis_dialog():
     # If a generator is selected, show the cost analysis form
     if st.session_state.cost_standard_generator:
         st.divider()
-        st.subheader("
-<div style='text-align:right; margin-bottom: 1rem;'>
-    <button onclick="window.print()" style="background-color: #636569; border: none; color: white; padding: 0.5rem 1.2rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer;">
-        Print Analysis
-    </button>
-</div>
 
-Cost Analysis
-
-<div style='text-align:center; margin-top:1.5rem;'>
-    <a href="https://anacorp.com/contact/" target="_blank">
-        <button style="background-color: #81BD47; border: none; color: white; padding: 0.75rem 1.5rem; font-size: 1rem; border-radius: 8px; cursor: pointer;">
-            Contact us for more details
-        </button>
-    </a>
-</div>
- Parameters")
+st.markdown('<a href="https://anacorp.com/contact/" target="_blank">Contact us for more details</a>', unsafe_allow_html=True)
+st.subheader("Parameters")
         
-        # Row 1: Fuel price and delivery fee
-        st.markdown("**Fuel Information**")
-        fuel_col1, fuel_col2 = st.columns([1, 1])
-        
-        with fuel_col1:
+# Row 1: Fuel price and delivery fee
+st.markdown("**Fuel Information**")
+fuel_col1, fuel_col2 = st.columns([1, 1])
+with fuel_col1:
             local_fuel_price = st.number_input(
                 "Local Fuel Price / Gal ($)",
                min_value=1,
@@ -1021,10 +995,10 @@ Cost Analysis
                 key="local_fuel_price"
             )
         
-        with fuel_col2:
-            fuel_delivery_fee = st.number_input(
-                "Fuel Delivery Fee ($)",
-                min_value=1,
+with fuel_col2:
+    fuel_delivery_fee = st.number_input(
+    "Fuel Delivery Fee ($)",
+    min_value=1,
                 max_value=1000,
                 value=0,
                 step=1,
@@ -1032,29 +1006,29 @@ Cost Analysis
             )
         
         # Row 2: PM interval and PM charge
-        st.markdown("**Maintenance Information**")
-        pm_col1, pm_col2 = st.columns([1, 1])
+st.markdown("**Maintenance Information**")
+pm_col1, pm_col2 = st.columns([1, 1])
         
-        with pm_col1:
-            pm_interval_hrs = st.number_input(
-                "PM Interval Hrs",
-                min_value=1,
+with pm_col1:
+    pm_interval_hrs = st.number_input(
+    "PM Interval Hrs",
+    min_value=1,
                 max_value=10000,
                 value=500,
                 step=1,
                 key="pm_interval_hrs"
             )
         
-        with pm_col2:
-            pm_charge_selection = st.radio(
-                "Is there a PM Charge?",
-                options=["No", "Yes"],
+with pm_col2:
+    pm_charge_selection = st.radio(
+    "Is there a PM Charge?",
+    options=["No", "Yes"],
                 index=0,
                 key="pm_charge_radio",
                 horizontal=True
             )
             
-            if pm_charge_selection == "Yes":
+if pm_charge_selection == "Yes":
                 cost_per_pm = st.number_input(
                     "Cost per PM ($)",
                     min_value=0.0,
@@ -1066,12 +1040,12 @@ Cost Analysis
                 )
         
         # Row 3: Weekly and Monthly rates for both systems
-        st.markdown("**System Rates**")
-        rate_col1, rate_col2 = st.columns([1, 1])
+st.markdown("**System Rates**")
+rate_col1, rate_col2 = st.columns([1, 1])
         
-        with rate_col1:
-            st.markdown("**EBOSS® Hybrid System**")
-            eboss_weekly_rate = st.number_input(
+with rate_col1:
+    st.markdown("**EBOSS Hybrid System**")
+    eboss_weekly_rate = st.number_input(
                 "Weekly Rate ($)",
                 min_value=1,
                 max_value=1000,
@@ -1079,7 +1053,7 @@ Cost Analysis
                 step=1,
                 key="eboss_weekly_rate"
             )
-            eboss_monthly_rate = st.number_input(
+eboss_monthly_rate = st.number_input(
                 "Monthly Rate ($)",
                 min_value=1,
                 max_value=1000,
@@ -1088,17 +1062,17 @@ Cost Analysis
                 key="eboss_monthly_rate"
             )
         
-        with rate_col2:
-            st.markdown("**Standard Generator**")
-            standard_weekly_rate = st.number_input(
-                "Weekly Rate ($)",
+with rate_col2:
+    st.markdown("**Standard Generator**")
+    standard_weekly_rate = st.number_input(
+    "Weekly Rate ($)",
                 min_value=1,
                 max_value=1000,
                 value=0,
                 step=1,
                 key="standard_weekly_rate"
             )
-            standard_monthly_rate = st.number_input(
+standard_monthly_rate = st.number_input(
                 "Monthly Rate ($)",
                 min_value=0.0,
                 max_value=200000.0,
@@ -1109,14 +1083,14 @@ Cost Analysis
             )
         
         # Action buttons
-        st.divider()
-        action_col1, action_col2, action_col3 = st.columns([1, 1, 1])
+st.divider()
+action_col1, action_col2, action_col3 = st.columns([1, 1, 1])
         
-        with action_col1:
-            if st.button("📊 Generate Analysis", key="generate_cost_analysis", use_container_width=True):
-                st.session_state.show_cost_dialog = False
-                st.session_state.show_cost_analysis = True
-                st.rerun()
+with action_col1:
+    if st.button("📊 Generate Analysis", key="generate_cost_analysis", use_container_width=True):
+        st.session_state.show_cost_dialog = False
+        st.session_state.show_cost_analysis = True
+        st.rerun()
         
         with action_col2:
             if st.button("🔄 Reset Form", key="reset_cost_form", use_container_width=True):
@@ -1133,116 +1107,114 @@ Cost Analysis
                 st.rerun()
 
 def calculate_mathematical_difference(eboss_value, standard_value, spec_name):
-    """Calculate mathematical difference between EBOSS® and standard values"""
+    """Calculate mathematical difference between EBOSS and standard values"""
     import re
-    
+
     # Skip calculation for certain rows
     if spec_name in ["Generator Size", "Frequency", "Voltage regulation", "Simultaneous voltage", "Parallelable"]:
         if spec_name == "Simultaneous voltage":
-            return "EBOSS® Advantage" if "Yes" in str(eboss_value) else "N/A"
-        elif spec_name == "Parallelable":
-            return "EBOSS® Advantage" if eboss_value == "Yes" and standard_value == "No" else "Same"
+            return "EBOSS Advantage" if "Yes" in str(eboss_value) else "N/A"
         elif spec_name == "Frequency":
             return "Same" if eboss_value == standard_value else "Different"
         elif spec_name == "Voltage regulation":
             return "Same" if eboss_value == standard_value else "Different"
         else:
-            return "EBOSS® vs Standard"
-    
+            return "EBOSS vs Standard"
+
     # Handle N/A values
     if str(eboss_value) == "N/A" or str(standard_value) == "N/A":
         if str(eboss_value) != "N/A" and str(standard_value) == "N/A":
-            return "EBOSS® Only"
+            return "EBOSS Only"
         return "N/A"
-    
+
     try:
         # Extract kVA and kW values from strings like "30 kVA / 24 kW"
         if "kVA" in str(eboss_value) and "kW" in str(eboss_value):
             eboss_kva = float(re.search(r'(\d+(?:\.\d+)?)\s*kVA', str(eboss_value)).group(1))
             eboss_kw = float(re.search(r'(\d+(?:\.\d+)?)\s*kW', str(eboss_value)).group(1))
-            
+
             if "kVA" in str(standard_value) and "kW" in str(standard_value):
                 std_kva = float(re.search(r'(\d+(?:\.\d+)?)\s*kVA', str(standard_value)).group(1))
                 std_kw = float(re.search(r'(\d+(?:\.\d+)?)\s*kW', str(standard_value)).group(1))
-                
+
                 kva_diff = eboss_kva - std_kva
                 kw_diff = eboss_kw - std_kw
-                
+
                 kva_sign = "+" if kva_diff >= 0 else ""
                 kw_sign = "+" if kw_diff >= 0 else ""
-                
+
                 return f"{kva_sign}{kva_diff:.1f} kVA / {kw_sign}{kw_diff:.1f} kW"
-        
+
         # Extract single kW values
         elif "kW" in str(eboss_value) and "kW" in str(standard_value):
             eboss_kw = float(re.search(r'(\d+(?:\.\d+)?)\s*kW', str(eboss_value)).group(1))
             std_kw = float(re.search(r'(\d+(?:\.\d+)?)\s*kW', str(standard_value)).group(1))
-            
+
             kw_diff = eboss_kw - std_kw
             kw_sign = "+" if kw_diff >= 0 else ""
-            
+
             return f"{kw_sign}{kw_diff:.1f} kW"
-        
+
         # Extract percentage values
         elif "%" in str(eboss_value) and "%" in str(standard_value):
             eboss_pct = float(re.search(r'(\d+(?:\.\d+)?)', str(eboss_value)).group(1))
             std_pct = float(re.search(r'(\d+(?:\.\d+)?)', str(standard_value)).group(1))
-            
+
             pct_diff = eboss_pct - std_pct
             pct_sign = "+" if pct_diff >= 0 else ""
-            
+
             return f"{pct_sign}{pct_diff:.1f}%"
-        
+
         # Extract GPH values
         elif "GPH" in str(eboss_value) and "GPH" in str(standard_value):
             eboss_gph = float(re.search(r'(\d+(?:\.\d+)?)', str(eboss_value)).group(1))
             std_gph = float(re.search(r'(\d+(?:\.\d+)?)', str(standard_value)).group(1))
-            
+
             gph_diff = eboss_gph - std_gph
             gph_sign = "+" if gph_diff >= 0 else ""
-            
+
             return f"{gph_sign}{gph_diff:.2f} GPH"
-        
+
         # Extract gallons values
         elif "gallons" in str(eboss_value) and "gallons" in str(standard_value):
             eboss_gal = float(re.search(r'(\d+(?:\.\d+)?)', str(eboss_value)).group(1))
             std_gal = float(re.search(r'(\d+(?:\.\d+)?)', str(standard_value)).group(1))
-            
+
             gal_diff = eboss_gal - std_gal
             gal_sign = "+" if gal_diff >= 0 else ""
-            
+
             return f"{gal_sign}{gal_diff:.1f} gallons"
-        
+
         # Extract lbs values (emissions)
         elif "lbs" in str(eboss_value) and "lbs" in str(standard_value):
             eboss_lbs = float(re.search(r'(\d+(?:\.\d+)?)', str(eboss_value)).group(1))
             std_lbs = float(re.search(r'(\d+(?:\.\d+)?)', str(standard_value)).group(1))
-            
+
             lbs_diff = eboss_lbs - std_lbs
             lbs_sign = "+" if lbs_diff >= 0 else ""
-            
+
             return f"{lbs_sign}{lbs_diff:.1f} lbs"
-        
+
         # Extract amp values
         elif "A" in str(eboss_value) and "A" in str(standard_value):
             eboss_amps = float(re.search(r'(\d+(?:\.\d+)?)', str(eboss_value)).group(1))
             std_amps = float(re.search(r'(\d+(?:\.\d+)?)', str(standard_value)).group(1))
-            
+
             amp_diff = eboss_amps - std_amps
             amp_sign = "+" if amp_diff >= 0 else ""
-            
+
             return f"{amp_sign}{amp_diff:.0f} A"
-        
+
         elif "A" in str(eboss_value) and str(standard_value) == "N/A":
-            return "EBOSS® Only"
-            
+            return "EBOSS Only"
+
     except (AttributeError, ValueError, TypeError):
         pass
-    
+
     # Default cases
     if str(eboss_value) == str(standard_value):
         return "Same"
-    
+
     return "Different"
 
 def format_difference_value(difference, spec_name):
@@ -1257,26 +1229,32 @@ def format_difference_value(difference, spec_name):
 
 def create_section_header(title):
     """Create a section header that spans all 4 columns"""
-    return f"""
-    <div style="background: linear-gradient(135deg, var(--energy-green) 0%, #2d5a3d 100%); 
+    return """
                 color: var(--alpine-white); 
-                padding: 1rem; 
-                margin: 1rem 0 0.5rem 0; 
-                border-radius: 10px; 
-                text-align: center; 
-                box-shadow: 0 8px 16px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.2); 
-                text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-                border: 3px solid rgba(255,255,255,0.1);">
-        <strong style="font-size: 1.2rem; 
-                     text-transform: uppercase; 
-                     letter-spacing: 1px; 
-                     font-family: Arial, sans-serif; 
-                     font-weight: 700;">
-            {title}
-        </strong>
-    </div>
-    """
+st.markdown("""
+# If you want to use this CSS, put it inside a string and pass to st.markdown, for example:
+st.markdown("""
+<style>
+    .section-header {
+        font-size: 1.4rem;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+</style>
+""", unsafe_allow_html=True)
 
+st.markdown("""<div style="padding: 1rem; text-align: center; color: white; font-size: 1.4rem; font-weight: bold; text-transform: uppercase; text-shadow: 2px 2px 4px rgba(0,0,0,0.6);">COST ANALYSIS</div>""", unsafe_allow_html=True)
+""", unsafe_allow_html=True)
+</div>
+    <strong style="font-size: 1.2rem; text-transform: uppercase;">COST ANALYSIS</strong>
+</div>
+""", unsafe_allow_html=True
+
+st.markdown(f"""
+<div style="letter-spacing: 1px; font-family: Arial, sans-serif; font-weight: 700;">
+    {title}
+</div>
+""", unsafe_allow_html=True)
 # Main container
 st.markdown('<div class="main-container">', unsafe_allow_html=True)
 
@@ -1287,8 +1265,6 @@ st.markdown('</div>', unsafe_allow_html=True)
 
 # Title in styled container
 st.markdown('''
-<div style="background: var(--cool-gray-10c); color: var(--alpine-white); padding: 1.5rem; margin: 1rem 0 2rem 0; border-radius: 12px; text-align: center; box-shadow: 0 8px 16px rgba(0,0,0,0.4); text-shadow: 2px 2px 4px rgba(0,0,0,0.6);">
-    <h1 style="margin: 0; font-size: 2.5rem; font-weight: 600; letter-spacing: 1px;">EBOSS® Spec and Comparison Tool</h1>
 </div>
 ''', unsafe_allow_html=True)
 
@@ -1299,19 +1275,19 @@ with col1:
     st.markdown('<div class="form-container">', unsafe_allow_html=True)
     st.markdown('<h3 class="form-section-title">System Configuration</h3>', unsafe_allow_html=True)
     
-    # EBOSS® Model dropdown
+    # EBOSS Model dropdown
     eboss_models = ["EB25 kVA", "EB70 kVA", "EB125 kVA", "EB220 kVA", "EB400 kVA"]
     st.session_state.eboss_model = st.selectbox(
-        "EBOSS® Model",
+        "EBOSS Model",
         options=eboss_models,
         index=0 if st.session_state.eboss_model is None else eboss_models.index(st.session_state.eboss_model),
         key="eboss_model_select"
     )
     
-    # EBOSS® Type dropdown
+    # EBOSS Type dropdown
     eboss_types = ["Full Hybrid", "Power Module"]
     st.session_state.eboss_type = st.selectbox(
-        "EBOSS® Type",
+        "EBOSS Type",
         options=eboss_types,
         index=0 if st.session_state.eboss_type is None else eboss_types.index(st.session_state.eboss_type),
         key="eboss_type_select"
@@ -1387,7 +1363,7 @@ with button_col1:
             st.session_state.show_cost_analysis = False
             st.rerun()
         else:
-            st.markdown('<div class="warning-box">⚠️ Please select an EBOSS® model first</div>', unsafe_allow_html=True)
+            st.markdown('<div class="warning-box">⚠️ Please select an EBOSS model first</div>', unsafe_allow_html=True)
 
 with button_col2:
     if st.button("⚡ Load Based Specs", key="load_specs_button"):
@@ -1411,22 +1387,35 @@ with button_col3:
             st.rerun()
         else:
             missing_items = []
-            if not st.session_state.eboss_model: missing_items.append("EBOSS® model")
-            if not st.session_state.eboss_type: missing_items.append("EBOSS® type")
+            if not st.session_state.eboss_model: missing_items.append("EBOSS model")
+            if not st.session_state.eboss_type: missing_items.append("EBOSS type")
             if not st.session_state.continuous_load: missing_items.append("continuous load")
             if not st.session_state.max_peak_load: missing_items.append("max peak load")
             
             st.markdown(f'<div class="warning-box">⚠️ Please complete: {", ".join(missing_items)}</div>', unsafe_allow_html=True)
 
 with button_col4:
-    if st.button("💰 
-<div style='text-align:right; margin-bottom: 1rem;'>
+    st.markdown("""
+    <div style='text-align:right; margin-bottom: 1rem;'>
+        <a href="https://anacorp.com/contact/" target="_blank">
+            <button style="background-color: #81BD47; border: none; color: white; padding: 0.5rem 1.2rem; font-size: 1rem; border-radius: 8px; cursor: pointer;">
+                Contact us
+            </button>
+        </a>
+    </div>
+    """, unsafe_allow_html=True)
+
+st.markdown("""
     <button onclick="window.print()" style="background-color: #636569; border: none; color: white; padding: 0.5rem 1.2rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer;">
         Print Analysis
     </button>
 </div>
 
-Cost Analysis
+""", unsafe_allow_html=True)
+st.markdown("""
+<h2 style='text-align: center; font-size: 1.8rem; font-weight: bold; margin-top: 1rem; letter-spacing: 1px; font-family: Arial, sans-serif;'>
+    Cost Analysis
+</h2>
 
 <div style='text-align:center; margin-top:1.5rem;'>
     <a href="https://anacorp.com/contact/" target="_blank">
@@ -1435,8 +1424,9 @@ Cost Analysis
         </button>
     </a>
 </div>
-", key="cost_analysis_button"):
-        if (st.session_state.eboss_model and st.session_state.eboss_type and 
+""", unsafe_allow_html=True)
+
+if (st.session_state.eboss_model and st.session_state.eboss_type and 
             st.session_state.continuous_load and st.session_state.max_peak_load):
             st.session_state.show_cost_dialog = True
             st.session_state.show_specs = False
@@ -1444,10 +1434,10 @@ Cost Analysis
             st.session_state.show_comparison = False
             st.session_state.show_cost_analysis = False
             st.rerun()
-        else:
+else:
             missing_items = []
-            if not st.session_state.eboss_model: missing_items.append("EBOSS® model")
-            if not st.session_state.eboss_type: missing_items.append("EBOSS® type")
+            if not st.session_state.eboss_model: missing_items.append("EBOSS model")
+            if not st.session_state.eboss_type: missing_items.append("EBOSS type")
             if not st.session_state.continuous_load: missing_items.append("continuous load")
             if not st.session_state.max_peak_load: missing_items.append("max peak load")
             
@@ -1479,7 +1469,7 @@ if st.session_state.show_specs and st.session_state.eboss_model:
     # Get specifications for selected model
     specs = EBOSS_SPECS.get(st.session_state.eboss_model, {}).copy()
     
-    # Dynamic Generator kVA based on EBOSS® type
+    # Dynamic Generator kVA based on EBOSS type
     if st.session_state.eboss_type == "Full Hybrid":
         # Use fixed hybrid generator size
         hybrid_kva = EBOSS_LOAD_REFERENCE["generator_kva_hybrid"].get(st.session_state.eboss_model)
@@ -1511,7 +1501,7 @@ if st.session_state.show_specs and st.session_state.eboss_model:
                 "Operating Temperature", "Dimensions (L x W x H)", "Weight"
             ],
             "Warranty & Support": [
-                "Warranty - EBOSS® only", "Warranty - With trailer & generator", "Battery warranty",
+                "Warranty - EBOSS only", "Warranty - With trailer & generator", "Battery warranty",
                 "Service & Support", "Training", "Warranty", "Warranty - With generator"
             ]
         }
@@ -1521,7 +1511,6 @@ if st.session_state.show_specs and st.session_state.eboss_model:
             for section_name, section_specs in sections.items():
                 # Section header
                 st.markdown(f"""
-                <div style="background: var(--energy-green); color: var(--alpine-white); padding: 0.6rem; margin: 1rem 0 0.25rem 0; border-radius: 8px; text-align: center; box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.2); text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">
                     <strong style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; font-family: Arial, sans-serif;">{section_name}</strong>
                 </div>
                 """, unsafe_allow_html=True)
@@ -1530,8 +1519,6 @@ if st.session_state.show_specs and st.session_state.eboss_model:
                 for spec_name in section_specs:
                     if spec_name in specs:
                         st.markdown(f"""
-                        <div style="background: var(--cool-gray-10c); color: var(--alpine-white); padding: 0.75rem; margin: 0.25rem 0; border-radius: 8px; text-align: left; box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 2px 4px rgba(0,0,0,0.3); border: 2px solid var(--energy-green);">
-                            <strong style="font-size: 0.95rem; font-family: Arial, sans-serif; text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">{spec_name}</strong>
                         </div>
                         """, unsafe_allow_html=True)
         
@@ -1540,7 +1527,6 @@ if st.session_state.show_specs and st.session_state.eboss_model:
             for section_name, section_specs in sections.items():
                 # Section header (matching left column)
                 st.markdown(f"""
-                <div style="background: var(--energy-green); color: var(--alpine-white); padding: 0.6rem; margin: 1rem 0 0.25rem 0; border-radius: 8px; text-align: center; box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.2); text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">
                     <strong style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; font-family: Arial, sans-serif;">{section_name}</strong>
                 </div>
                 """, unsafe_allow_html=True)
@@ -1550,8 +1536,6 @@ if st.session_state.show_specs and st.session_state.eboss_model:
                     if spec_name in specs:
                         spec_value = specs[spec_name]
                         st.markdown(f"""
-                        <div style="background: var(--cool-gray-10c); color: var(--alpine-white); padding: 0.75rem; margin: 0.25rem 0; border-radius: 8px; border: 2px solid var(--energy-green); box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 2px 4px rgba(0,0,0,0.3);">
-                            <span style="font-size: 0.95rem; font-weight: 500; font-family: Arial, sans-serif; text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">{spec_value}</span>
                         </div>
                         """, unsafe_allow_html=True)
         
@@ -1563,7 +1547,6 @@ if st.session_state.show_specs and st.session_state.eboss_model:
             
             with load_col1:
                 st.markdown(f"""
-                <div style="background: var(--energy-green); color: var(--alpine-white); padding: 1rem; border-radius: 8px; text-align: center;">
                     <strong>Continuous Load</strong><br>
                     <span style="font-size: 1.5rem; font-weight: bold;">{st.session_state.continuous_load} kW</span>
                 </div>
@@ -1571,7 +1554,6 @@ if st.session_state.show_specs and st.session_state.eboss_model:
             
             with load_col2:
                 st.markdown(f"""
-                <div style="background: var(--energy-green); color: var(--alpine-white); padding: 1rem; border-radius: 8px; text-align: center;">
                     <strong>Max Peak Load</strong><br>
                     <span style="font-size: 1.5rem; font-weight: bold;">{st.session_state.max_peak_load} kW</span>
                 </div>
@@ -1670,11 +1652,11 @@ elif st.session_state.show_load_specs and st.session_state.eboss_model and st.se
         
         # Load-specific sections with new structure and calculations
         load_sections = {
-            "EBOSS® & Load Info": [
+            "EBOSS & Load Info": [
                 ("Continuous Load", f"{st.session_state.continuous_load} kW"),
                 ("Max Peak Load", f"{st.session_state.max_peak_load} kW"),
-                ("EBOSS® Type", st.session_state.eboss_type or "Not specified"),
-                ("EBOSS® Model", st.session_state.eboss_model or "Not specified"),
+                ("EBOSS Type", st.session_state.eboss_type or "Not specified"),
+                ("EBOSS Model", st.session_state.eboss_model or "Not specified"),
                 ("Generator Size", generator_display)
             ],
             "Battery & Charging": [
@@ -1699,7 +1681,6 @@ elif st.session_state.show_load_specs and st.session_state.eboss_model and st.se
         for section_name, section_items in load_sections.items():
             # Single header spanning both columns
             st.markdown(f"""
-            <div style="background: var(--energy-green); color: var(--alpine-white); padding: 0.6rem; margin: 1rem 0 0.25rem 0; border-radius: 8px; text-align: center; box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.2); text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">
                 <strong style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; font-family: Arial, sans-serif;">{section_name}</strong>
             </div>
             """, unsafe_allow_html=True)
@@ -1711,8 +1692,6 @@ elif st.session_state.show_load_specs and st.session_state.eboss_model and st.se
                 # Section specs
                 for spec_name, spec_value in section_items:
                     st.markdown(f"""
-                    <div style="background: var(--cool-gray-10c); color: var(--alpine-white); padding: 0.75rem; margin: 0.25rem 0; border-radius: 8px; text-align: left; box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 2px 4px rgba(0,0,0,0.3); border: 2px solid var(--energy-green);">
-                        <strong style="font-size: 0.95rem; font-family: Arial, sans-serif; text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">{spec_name}</strong>
                     </div>
                     """, unsafe_allow_html=True)
             
@@ -1730,8 +1709,6 @@ elif st.session_state.show_load_specs and st.session_state.eboss_model and st.se
                         
                         with change_col1:
                             st.markdown(f"""
-                            <div style="background: {bg_color}; color: {text_color}; padding: 0.75rem; margin: 0.25rem 0; border-radius: 8px; border: 2px solid {border_color}; box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 2px 4px rgba(0,0,0,0.3);">
-                                <span style="font-size: 0.95rem; font-weight: 500; font-family: Arial, sans-serif; text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">{spec_value}</span>
                             </div>
                             """, unsafe_allow_html=True)
                         
@@ -1746,8 +1723,6 @@ elif st.session_state.show_load_specs and st.session_state.eboss_model and st.se
                                 st.rerun()
                     else:
                         st.markdown(f"""
-                        <div style="background: {bg_color}; color: {text_color}; padding: 0.75rem; margin: 0.25rem 0; border-radius: 8px; border: 2px solid {border_color}; box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 2px 4px rgba(0,0,0,0.3);">
-                            <span style="font-size: 0.95rem; font-weight: 500; font-family: Arial, sans-serif; text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">{spec_value}</span>
                         </div>
                         """, unsafe_allow_html=True)
         
@@ -1755,7 +1730,6 @@ elif st.session_state.show_load_specs and st.session_state.eboss_model and st.se
         if st.session_state.generator_kva:
             st.markdown('<hr style="margin: 1.5rem 0; border-color: var(--cool-gray-8c);">', unsafe_allow_html=True)
             st.markdown(f"""
-            <div style="background: var(--cool-gray-10c); color: var(--alpine-white); padding: 1rem; border-radius: 8px; text-align: center;">
                 <strong>Selected Generator: {st.session_state.generator_kva}</strong><br>
                 <span style="font-size: 0.9rem;">Power Module Configuration</span>
             </div>
@@ -1770,14 +1744,10 @@ def charge_rate_modal():
     st.markdown("""
     <style>
     .stDialog > div > div {
-        background-color: #2a2a2a;
-        color: #ffffff;
     }
     .stDialog .stMarkdown p {
-        color: #ffffff !important;
     }
     .stDialog .stMarkdown strong {
-        color: #ffffff !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -1866,7 +1836,7 @@ if st.session_state.get('show_cost_dialog', False):
 elif st.session_state.get('show_comparison', False) and st.session_state.eboss_model:
     st.markdown('<br>', unsafe_allow_html=True)
     st.markdown('<div class="form-container">', unsafe_allow_html=True)
-    st.markdown('<h3 class="form-section-title">⚖️ EBOSS® vs Standard Generator Comparison</h3>', unsafe_allow_html=True)
+    st.markdown('<h3 class="form-section-title">⚖️ EBOSS vs Standard Generator Comparison</h3>', unsafe_allow_html=True)
     
     # Close button for comparison
     if st.button("✕ Close Comparison", key="close_comparison"):
@@ -1892,7 +1862,7 @@ elif st.session_state.get('show_comparison', False) and st.session_state.eboss_m
         options=[None] + standard_generator_options,
         index=current_index,
         key="standard_generator_select",
-        help="Choose a standard diesel generator size to compare with your EBOSS® configuration"
+        help="Choose a standard diesel generator size to compare with your EBOSS configuration"
     )
     
     # Only show comparison table if standard generator is selected
@@ -1915,38 +1885,34 @@ elif st.session_state.get('show_comparison', False) and st.session_state.eboss_m
         )
         
         if eboss_specs and standard_specs:
-            # Create 4-column layout: Labels, EBOSS® Values, Standard Generator Values, Difference
+            # Create 4-column layout: Labels, EBOSS Values, Standard Generator Values, Difference
             col1, col2, col3, col4 = st.columns([2, 1.5, 1.5, 1])
         
             with col1:
                 st.markdown("""
-                <div style="background: var(--energy-green); color: var(--alpine-white); padding: 0.6rem; margin: 1rem 0 0.25rem 0; border-radius: 8px; text-align: center; box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.2); text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">
                     <strong style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; font-family: Arial, sans-serif;">SPECIFICATION</strong>
                 </div>
                 """, unsafe_allow_html=True)
             
             with col2:
                 st.markdown(f"""
-                <div style="background: var(--energy-green); color: var(--alpine-white); padding: 0.6rem; margin: 1rem 0 0.25rem 0; border-radius: 8px; text-align: center; box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.2); text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">
                     <strong style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; font-family: Arial, sans-serif;">EBOSS {st.session_state.eboss_model}</strong>
                 </div>
                 """, unsafe_allow_html=True)
             
             with col3:
                 st.markdown(f"""
-                <div style="background: var(--energy-green); color: var(--alpine-white); padding: 0.6rem; margin: 1rem 0 0.25rem 0; border-radius: 8px; text-align: center; box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.2); text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">
                     <strong style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; font-family: Arial, sans-serif;">STANDARD {st.session_state.standard_generator}</strong>
                 </div>
                 """, unsafe_allow_html=True)
             
             with col4:
                 st.markdown("""
-                <div style="background: var(--energy-green); color: var(--alpine-white); padding: 0.6rem; margin: 1rem 0 0.25rem 0; border-radius: 8px; text-align: center; box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.2); text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">
                     <strong style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; font-family: Arial, sans-serif;">DIFFERENCE</strong>
                 </div>
                 """, unsafe_allow_html=True)
         
-            # Calculate EBOSS® fuel consumption values
+            # Calculate EBOSS fuel consumption values
             eboss_fuel_per_hour = eboss_specs.get('fuel_consumption_gph', 0) or 0
             battery_capacity = eboss_specs.get('battery_capacity', 0)
             charge_time = eboss_specs.get('charge_time', 0)
@@ -1967,7 +1933,7 @@ elif st.session_state.get('show_comparison', False) and st.session_state.eboss_m
             fuel_diff_month = eboss_fuel_per_month - standard_specs['fuel_per_month']
             co2_diff_day = eboss_co2_per_day - standard_specs['co2_per_day']
             
-            # Get EBOSS® engine load percentage from specs (based on paired generator)
+            # Get EBOSS engine load percentage from specs (based on paired generator)
             eboss_engine_load = eboss_specs.get('engine_load_percent', 0)
             standard_engine_load = 100  # Standard generators run at 100% of rated load
             engine_load_diff = eboss_engine_load - standard_engine_load
@@ -1981,10 +1947,10 @@ elif st.session_state.get('show_comparison', False) and st.session_state.eboss_m
             standard_gen_kw = standard_gen_data.get('kw', 20)
             standard_engine_load_percent = (st.session_state.continuous_load / standard_gen_kw * 100) if standard_gen_kw > 0 else 0
             
-            # Get EBOSS® specs based on model
+            # Get EBOSS specs based on model
             eboss_model_specs = EBOSS_SPECS.get(st.session_state.eboss_model, {})
             
-            # Get EBOSS® max continuous output kW from specifications
+            # Get EBOSS max continuous output kW from specifications
             eboss_max_continuous_kw = {
                 "EB25 kVA": 22,    # From Max Continuous amp-load 480V: 28 A / 22 kW
                 "EB70 kVA": 56,    # From Max Continuous amp-load 480V: 67 A / 56 kW  
@@ -2189,7 +2155,7 @@ elif st.session_state.get('show_comparison', False) and st.session_state.eboss_m
                 # Row 4: Maximum Intermittent Power Output header
                 ("header", "Maximum Intermittent Power Output", ""),
                 
-                # Rows 5-13: Intermittent power specifications (authentic values for both EBOSS® and standard)
+                # Rows 5-13: Intermittent power specifications (authentic values for both EBOSS and standard)
                 ("Three-phase", eboss_authentic_specs.get("Three-phase Max Power", "N/A"), standard_authentic_specs.get("Three-phase Max Power", "N/A")),
                 ("Single-phase", eboss_authentic_specs.get("Single-phase Max Power", "N/A"), standard_authentic_specs.get("Single-phase Max Power", "N/A")),
                 ("Frequency", eboss_authentic_specs.get("Frequency", "N/A"), standard_authentic_specs.get("Frequency", "N/A")),
@@ -2203,7 +2169,7 @@ elif st.session_state.get('show_comparison', False) and st.session_state.eboss_m
                 # Row 14: Maximum Continuous Power Output header
                 ("header", "Maximum Continuous Power Output", ""),
                 
-                # Rows 15-19: Continuous power specifications (authentic values for both EBOSS® and standard)
+                # Rows 15-19: Continuous power specifications (authentic values for both EBOSS and standard)
                 ("Three-phase output", eboss_authentic_specs.get("Three-phase Continuous", "N/A"), standard_authentic_specs.get("Three-phase Continuous", "N/A")),
                 ("Single-phase output", eboss_authentic_specs.get("Single-phase Continuous", "N/A"), standard_authentic_specs.get("Single-phase Continuous", "N/A")),
                 ("Simultaneous voltage", eboss_authentic_specs.get("Simultaneous voltage", "N/A"), standard_authentic_specs.get("Simultaneous voltage", "N/A")),
@@ -2240,15 +2206,7 @@ elif st.session_state.get('show_comparison', False) and st.session_state.eboss_m
                     
                     # Section header spanning full width
                     st.markdown(f"""
-                    <div style="background: var(--energy-green); 
-                                color: var(--alpine-white); 
-                                padding: 1rem; 
-                                margin: 1rem 0 0.5rem 0; 
                                 border-radius: 10px; 
-                                text-align: center; 
-                                box-shadow: 0 8px 16px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.2); 
-                                text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-                                border: 3px solid rgba(255,255,255,0.1);">
                         <strong style="font-size: 1.2rem; 
                                      text-transform: uppercase; 
                                      letter-spacing: 1px; 
@@ -2265,24 +2223,18 @@ elif st.session_state.get('show_comparison', False) and st.session_state.eboss_m
                     # Regular data row
                     with col1:
                         st.markdown(f"""
-                        <div style="background: var(--cool-gray-10c); color: var(--alpine-white); padding: 0.75rem; margin: 0.25rem 0; border-radius: 8px; border: 2px solid var(--energy-green); box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 2px 4px rgba(0,0,0,0.3);">
-                            <span style="font-size: 0.95rem; font-weight: 500; font-family: Arial, sans-serif; text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">{spec_name}</span>
                         </div>
                         """, unsafe_allow_html=True)
                     
                     with col2:
                         eboss_display = eboss_value if eboss_value and str(eboss_value).strip() and str(eboss_value) != "N/A" else "N/A"
                         st.markdown(f"""
-                        <div style="background: var(--cool-gray-10c); color: var(--alpine-white); padding: 0.75rem; margin: 0.25rem 0; border-radius: 8px; border: 2px solid var(--energy-green); box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 2px 4px rgba(0,0,0,0.3);">
-                            <span style="font-size: 0.95rem; font-weight: 500; font-family: Arial, sans-serif; text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">{eboss_display}</span>
                         </div>
                         """, unsafe_allow_html=True)
                     
                     with col3:
                         standard_display = standard_value if standard_value and str(standard_value).strip() and str(standard_value) != "N/A" else "N/A"
                         st.markdown(f"""
-                        <div style="background: var(--cool-gray-10c); color: var(--alpine-white); padding: 0.75rem; margin: 0.25rem 0; border-radius: 8px; border: 2px solid var(--energy-green); box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 2px 4px rgba(0,0,0,0.3);">
-                            <span style="font-size: 0.95rem; font-weight: 500; font-family: Arial, sans-serif; text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">{standard_display}</span>
                         </div>
                         """, unsafe_allow_html=True)
                     
@@ -2291,8 +2243,6 @@ elif st.session_state.get('show_comparison', False) and st.session_state.eboss_m
                         formatted_diff, difference_color = format_difference_value(difference, spec_name)
                         
                         st.markdown(f"""
-                        <div style="background: var(--cool-gray-10c); color: {difference_color}; padding: 0.75rem; margin: 0.25rem 0; border-radius: 8px; border: 2px solid var(--energy-green); box-shadow: 0 6px 12px rgba(0,0,0,0.4), inset 0 2px 4px rgba(0,0,0,0.3);">
-                            <span style="font-size: 0.95rem; font-weight: 500; font-family: Arial, sans-serif; text-shadow: 1px 1px 2px rgba(0,0,0,0.6);">{formatted_diff}</span>
                         </div>
                         """, unsafe_allow_html=True)
     else:
@@ -2300,16 +2250,18 @@ elif st.session_state.get('show_comparison', False) and st.session_state.eboss_m
     
     st.markdown('</div>', unsafe_allow_html=True)
 
-
-
-# 
+st.maekdowm(""")
 <div style='text-align:right; margin-bottom: 1rem;'>
     <button onclick="window.print()" style="background-color: #636569; border: none; color: white; padding: 0.5rem 1.2rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer;">
         Print Analysis
     </button>
 </div>
+            """, unsafe_allow_html=True)
 
-Cost Analysis
+st.markdown("""
+<h2 style='text-align: center; font-size: 1.8rem; font-weight: bold; margin-top: 1rem; letter-spacing: 1px; font-family: Arial, sans-serif;'>
+    Cost Analysis
+</h2>
 
 <div style='text-align:center; margin-top:1.5rem;'>
     <a href="https://anacorp.com/contact/" target="_blank">
@@ -2318,10 +2270,12 @@ Cost Analysis
         </button>
     </a>
 </div>
- Display
+""", unsafe_allow_html=True)
+
 if st.session_state.show_cost_analysis and st.session_state.eboss_model:
     st.markdown('<br>', unsafe_allow_html=True)
     st.markdown('<div class="form-container">', unsafe_allow_html=True)
+st.markdown("""
     st.markdown('<h3 class="form-section-title">💰 
 <div style='text-align:right; margin-bottom: 1rem;'>
     <button onclick="window.print()" style="background-color: #636569; border: none; color: white; padding: 0.5rem 1.2rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer;">
@@ -2329,7 +2283,11 @@ if st.session_state.show_cost_analysis and st.session_state.eboss_model:
     </button>
 </div>
 
-Cost Analysis
+""", unsafe_allow_html=True)
+st.markdown("""
+<h2 style='text-align: center; font-size: 1.8rem; font-weight: bold; margin-top: 1rem; letter-spacing: 1px; font-family: Arial, sans-serif;'>
+    Cost Analysis
+</h2>
 
 <div style='text-align:center; margin-top:1.5rem;'>
     <a href="https://anacorp.com/contact/" target="_blank">
@@ -2338,64 +2296,57 @@ Cost Analysis
         </button>
     </a>
 </div>
- Results</h3>', unsafe_allow_html=True)
+""", unsafe_allow_html=True)
+
     
     # Close button for cost analysis
-    if st.button("✕ Close 
-<div style='text-align:right; margin-bottom: 1rem;'>
-    <button onclick="window.print()" style="background-color: #636569; border: none; color: white; padding: 0.5rem 1.2rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer;">
-        Print Analysis
-    </button>
-</div>
-
-Cost Analysis
-
-<div style='text-align:center; margin-top:1.5rem;'>
-    <a href="https://anacorp.com/contact/" target="_blank">
-        <button style="background-color: #81BD47; border: none; color: white; padding: 0.75rem 1.5rem; font-size: 1rem; border-radius: 8px; cursor: pointer;">
-            Contact us for more details
+if st.button("✕ Close"):
+    st.markdown("""
+    <div style='text-align:right; margin-top: 1rem;'>
+        <button onclick="window.print()" style="background-color: #636569; border: none; color: white; padding: 0.5rem 1.2rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer;">
+            Print Analysis
         </button>
-    </a>
-</div>
-", key="close_cost_analysis"):
-        st.session_state.show_cost_analysis = False
+    </div>
+    """, unsafe_allow_html=True)
+
+if st.button("✕ Close Cost Analysis", key="close_cost_analysis"):
         st.rerun()
     
     # Get input values from session state with defaults
-    local_fuel_price = st.session_state.get('local_fuel_price', 3.50)
-    fuel_delivery_fee = st.session_state.get('fuel_delivery_fee', 0.0)
-    pm_interval_hrs = st.session_state.get('pm_interval_hrs', 500)
-    cost_per_pm = st.session_state.get('cost_per_pm', 0.0) if st.session_state.get('pm_charge_radio') == "Yes" else 0.0
-    eboss_weekly_rate = st.session_state.get('eboss_weekly_rate', 0.0)
-    eboss_monthly_rate = st.session_state.get('eboss_monthly_rate', 0.0)
-    standard_weekly_rate = st.session_state.get('standard_weekly_rate', 0.0)
-    standard_monthly_rate = st.session_state.get('standard_monthly_rate', 0.0)
-    selected_standard_gen = st.session_state.get('cost_standard_generator', 'N/A')
+local_fuel_price = st.session_state.get('local_fuel_price', 3.50)
+fuel_delivery_fee = st.session_state.get('fuel_delivery_fee', 0.0)
+pm_interval_hrs = st.session_state.get('pm_interval_hrs', 500)
+cost_per_pm = st.session_state.get('cost_per_pm', 0.0) if st.session_state.get('pm_charge_radio') == "Yes" else 0.0
+eboss_weekly_rate = st.session_state.get('eboss_weekly_rate', 0.0)
+eboss_monthly_rate = st.session_state.get('eboss_monthly_rate', 0.0)
+standard_weekly_rate = st.session_state.get('standard_weekly_rate', 0.0)
+standard_monthly_rate = st.session_state.get('standard_monthly_rate', 0.0)
+selected_standard_gen = st.session_state.get('cost_standard_generator', 'N/A')
     
     # Calculate fuel consumption and costs based on load data
-    continuous_load = st.session_state.get('continuous_load', 0)
+continuous_load = st.session_state.get('continuous_load', 0)
     
-    # Get EBOSS® fuel data (from load specs calculations)
-    eboss_model = st.session_state.eboss_model
-    battery_capacity_kwh = EBOSS_LOAD_REFERENCE["battery_capacities"].get(eboss_model, 0)
+    # Get EBOSS fuel data (from load specs calculations)
+eboss_model = st.session_state.eboss_model
+battery_capacity_kwh = EBOSS_LOAD_REFERENCE["battery_capacities"].get(eboss_model, 0)
     
-    # EBOSS® calculations
-    if st.session_state.eboss_type == "Full Hybrid":
+    # EBOSS calculations
+if st.session_state.eboss_type == "Full Hybrid":
         generator_kva = EBOSS_LOAD_REFERENCE["generator_kva_hybrid"].get(eboss_model, 0)
-    else:
+else:
         generator_kva = int(st.session_state.generator_kva.replace('kVA', '')) if st.session_state.generator_kva else 0
     
-    generator_kw = generator_kva * 0.8
-    charge_rate_kw = EBOSS_LOAD_REFERENCE["generator_sizes"].get(generator_kva, {}).get("fh_charge_rate" if st.session_state.eboss_type == "Full Hybrid" else "pm_charge_rate", 0)
+generator_kw = generator_kva * 0.8
+charge_rate_kw = EBOSS_LOAD_REFERENCE["generator_sizes"].get(generator_kva, {}).get("fh_charge_rate" if st.session_state.eboss_type == "Full Hybrid" else "pm_charge_rate", 0)
     
-    # Calculate EBOSS® fuel consumption
-    battery_longevity = (battery_capacity_kwh / continuous_load) if continuous_load > 0 else 0
-    charge_time = (battery_capacity_kwh / charge_rate_kw) if charge_rate_kw > 0 else 0
-    charges_per_day = 24 / (charge_time + battery_longevity) if (charge_time + battery_longevity) > 0 else 0
-    engine_load_percent = (charge_rate_kw / generator_kw * 100) if generator_kw > 0 else 0
+    # Calculate EBOSS fuel consumption
+battery_longevity = (battery_capacity_kwh / continuous_load) if continuous_load > 0 else 0
+charge_time = (battery_capacity_kwh / charge_rate_kw) if charge_rate_kw > 0 else 0
+charges_per_day = 24 / (charge_time + battery_longevity) if (charge_time + battery_longevity) > 0 else 0
+engine_load_percent = (charge_rate_kw / generator_kw * 100) if generator_kw > 0 else 0
     
     # Get authentic GPH data
-    def interpolate_gph(generator_kva, load_percent):
+def interpolate_gph(generator_kva, load_percent):
         if generator_kva not in EBOSS_LOAD_REFERENCE["gph_interpolation"]:
             return 0
         gph_data = EBOSS_LOAD_REFERENCE["gph_interpolation"][generator_kva]
@@ -2404,16 +2355,16 @@ Cost Analysis
         elif load_percent <= 75: return gph_data["75%"]
         else: return gph_data["100%"]
     
-    eboss_fuel_per_hour = interpolate_gph(generator_kva, engine_load_percent) if engine_load_percent > 0 else 0
-    eboss_runtime_per_day = charges_per_day * charge_time if charges_per_day > 0 and charge_time > 0 else 0
+eboss_fuel_per_hour = interpolate_gph(generator_kva, engine_load_percent) if engine_load_percent > 0 else 0
+eboss_runtime_per_day = charges_per_day * charge_time if charges_per_day > 0 and charge_time > 0 else 0
     
     # Standard generator calculations
-    standard_specs = STANDARD_GENERATOR_DATA.get(selected_standard_gen, {})
-    standard_fuel_gph = standard_specs.get('fuel_consumption_gph', {}).get('50%', 0)  # Use 50% load as baseline
-    standard_runtime_per_day = 24  # Assume continuous operation
+standard_specs = STANDARD_GENERATOR_DATA.get(selected_standard_gen, {})
+standard_fuel_gph = standard_specs.get('fuel_consumption_gph', {}).get('50%', 0)  # Use 50% load as baseline
+standard_runtime_per_day = 24  # Assume continuous operation
     
     # Cost calculations
-    def calculate_costs(fuel_per_hour, runtime_per_day, rental_weekly, rental_monthly):
+def calculate_costs(fuel_per_hour, runtime_per_day, rental_weekly, rental_monthly):
         # Weekly calculations
         weekly_fuel_gal = fuel_per_hour * runtime_per_day * 7
         weekly_fuel_cost = weekly_fuel_gal * local_fuel_price
@@ -2450,163 +2401,38 @@ Cost Analysis
         }
     
     # Debug information (temporary)
-    st.write(f"Debug - EBOSS® Model: {eboss_model}")
-    st.write(f"Debug - Continuous Load: {continuous_load}")
-    st.write(f"Debug - Generator kVA: {generator_kva}")
-    st.write(f"Debug - Battery Capacity: {battery_capacity_kwh}")
-    st.write(f"Debug - Charge Rate kW: {charge_rate_kw}")
-    st.write(f"Debug - Engine Load %: {engine_load_percent}")
-    st.write(f"Debug - EBOSS® Fuel GPH: {eboss_fuel_per_hour}")
-    st.write(f"Debug - Standard Generator: {selected_standard_gen}")
-    st.write(f"Debug - Standard Fuel GPH: {standard_fuel_gph}")
+st.write(f"Debug - EBOSS Model: {eboss_model}")
+st.write(f"Debug - Continuous Load: {continuous_load}")
+st.write(f"Debug - Generator kVA: {generator_kva}")
+st.write(f"Debug - Battery Capacity: {battery_capacity_kwh}")
+st.write(f"Debug - Charge Rate kW: {charge_rate_kw}")
+st.write(f"Debug - Engine Load %: {engine_load_percent}")
+st.write(f"Debug - EBOSS Fuel GPH: {eboss_fuel_per_hour}")
+st.write(f"Debug - Standard Generator: {selected_standard_gen}")
+st.write(f"Debug - Standard Fuel GPH: {standard_fuel_gph}")
     
     # Calculate costs for both systems
-    eboss_costs = calculate_costs(eboss_fuel_per_hour, eboss_runtime_per_day, eboss_weekly_rate, eboss_monthly_rate)
-    standard_costs = calculate_costs(standard_fuel_gph, standard_runtime_per_day, standard_weekly_rate, standard_monthly_rate)
+eboss_costs = calculate_costs(eboss_fuel_per_hour, eboss_runtime_per_day, eboss_weekly_rate, eboss_monthly_rate)
+standard_costs = calculate_costs(standard_fuel_gph, standard_runtime_per_day, standard_weekly_rate, standard_monthly_rate)
     
     # Display the cost analysis table
-    st.markdown('<br>', unsafe_allow_html=True)
+st.markdown('<br>', unsafe_allow_html=True)
     
     # Create the table structure using HTML
-    st.markdown(f"""
-    <div style="background: var(--alpine-white); padding: 1rem; border-radius: 8px; margin: 1rem 0; 
-                box-shadow: 0 8px 16px rgba(0,0,0,0.3); border: 2px solid var(--charcoal);">
+st.markdown(f"""
         <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 0.9rem; 
-                      box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
             <thead>
-                <tr style="background: var(--energy-green); color: var(--alpine-white); 
-                          border: 2px solid var(--charcoal); box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-                    <th style="padding: 0.75rem; border: 1px solid var(--charcoal); text-align: left; font-weight: bold; 
-                              text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">Item</th>
-                    <th colspan="2" style="padding: 0.75rem; border: 1px solid var(--charcoal); text-align: center; font-weight: bold;
-                                         text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">Weekly</th>
-                    <th colspan="2" style="padding: 0.75rem; border: 1px solid var(--charcoal); text-align: center; font-weight: bold;
-                                         text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">Monthly</th>
                 </tr>
-                <tr style="background: var(--energy-green); color: var(--alpine-white); 
-                          border: 2px solid var(--charcoal); box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-                    <th style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: left; font-size: 0.8rem;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.7);"></th>
-                    <th style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: center; font-size: 0.8rem;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.7);">EBOSS® Hybrid</th>
-                    <th style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: center; font-size: 0.8rem;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.7);">Standard Generator</th>
-                    <th style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: center; font-size: 0.8rem;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.7);">EBOSS® Hybrid</th>
-                    <th style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: center; font-size: 0.8rem;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.7);">Standard Generator</th>
                 </tr>
             </thead>
-            <tbody style="background: var(--alpine-white); color: var(--black-asphalt);">
-                <tr style="box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); font-weight: bold;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Rental Rate</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${eboss_costs['weekly']['rental']:,.2f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${standard_costs['weekly']['rental']:,.2f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${eboss_costs['monthly']['rental']:,.2f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${standard_costs['monthly']['rental']:,.2f}</td>
                 </tr>
-                <tr style="background: #f9f9f9; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); font-weight: bold;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Runtime Hours</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">{eboss_costs['weekly']['runtime_hours']:.1f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">{standard_costs['weekly']['runtime_hours']:.1f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">{eboss_costs['monthly']['runtime_hours']:.1f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">{standard_costs['monthly']['runtime_hours']:.1f}</td>
                 </tr>
-                <tr style="box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); font-weight: bold;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">PM Services</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">{eboss_costs['weekly']['pm_services']:.2f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">{standard_costs['weekly']['pm_services']:.2f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">{eboss_costs['monthly']['pm_services']:.2f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">{standard_costs['monthly']['pm_services']:.2f}</td>
                 </tr>
-                <tr style="background: #f9f9f9; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); font-weight: bold;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">PM Service Cost</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${eboss_costs['weekly']['pm_cost']:,.2f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${standard_costs['weekly']['pm_cost']:,.2f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${eboss_costs['monthly']['pm_cost']:,.2f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${standard_costs['monthly']['pm_cost']:,.2f}</td>
                 </tr>
-                <tr style="box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); font-weight: bold;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Diesel Qty (gal)</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">{eboss_costs['weekly']['diesel_qty']:.1f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">{standard_costs['weekly']['diesel_qty']:.1f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">{eboss_costs['monthly']['diesel_qty']:.1f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">{standard_costs['monthly']['diesel_qty']:.1f}</td>
                 </tr>
-                <tr style="background: #f9f9f9; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); font-weight: bold;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Diesel Cost</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${eboss_costs['weekly']['diesel_cost']:,.2f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${standard_costs['weekly']['diesel_cost']:,.2f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${eboss_costs['monthly']['diesel_cost']:,.2f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${standard_costs['monthly']['diesel_cost']:,.2f}</td>
                 </tr>
-                <tr style="box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); font-weight: bold;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">Fuel Delivery Cost</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${eboss_costs['weekly']['fuel_delivery']:,.2f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${standard_costs['weekly']['fuel_delivery']:,.2f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${eboss_costs['monthly']['fuel_delivery']:,.2f}</td>
-                    <td style="padding: 0.5rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">${standard_costs['monthly']['fuel_delivery']:,.2f}</td>
                 </tr>
-                <tr style="background: var(--energy-green); color: var(--alpine-white); font-weight: bold;
-                          border: 2px solid var(--charcoal); box-shadow: 0 4px 8px rgba(0,0,0,0.4);">
-                    <td style="padding: 0.75rem; border: 1px solid var(--charcoal); font-weight: bold;
-                              text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">Total Cost</td>
-                    <td style="padding: 0.75rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">${eboss_costs['weekly']['total']:,.2f}</td>
-                    <td style="padding: 0.75rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">${standard_costs['weekly']['total']:,.2f}</td>
-                    <td style="padding: 0.75rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">${eboss_costs['monthly']['total']:,.2f}</td>
-                    <td style="padding: 0.75rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">${standard_costs['monthly']['total']:,.2f}</td>
                 </tr>
-                <tr style="background: var(--energy-green); color: var(--alpine-white); font-weight: bold;
-                          border: 2px solid var(--charcoal); box-shadow: 0 4px 8px rgba(0,0,0,0.4);">
-                    <td style="padding: 0.75rem; border: 1px solid var(--charcoal); font-weight: bold;
-                              text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">EBOSS® Savings</td>
-                    <td style="padding: 0.75rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">${(standard_costs['weekly']['total'] - eboss_costs['weekly']['total']):,.2f}</td>
-                    <td style="padding: 0.75rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">-</td>
-                    <td style="padding: 0.75rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">${(standard_costs['monthly']['total'] - eboss_costs['monthly']['total']):,.2f}</td>
-                    <td style="padding: 0.75rem; border: 1px solid var(--charcoal); text-align: right;
-                              text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">-</td>
                 </tr>
             </tbody>
         </table>
@@ -2614,19 +2440,14 @@ Cost Analysis
     """, unsafe_allow_html=True)
     
     # Cost savings summary
-    weekly_savings = standard_costs['weekly']['total'] - eboss_costs['weekly']['total']
-    monthly_savings = standard_costs['monthly']['total'] - eboss_costs['monthly']['total']
-    yearly_savings = monthly_savings * 12  # Calculate yearly savings
+weekly_savings = standard_costs['weekly']['total'] - eboss_costs['weekly']['total']
+monthly_savings = standard_costs['monthly']['total'] - eboss_costs['monthly']['total']
+yearly_savings = monthly_savings * 12  # Calculate yearly savings
     
-    savings_color = "var(--energy-green)" if weekly_savings > 0 else "#FF6B6B"
-    savings_text = "SAVINGS" if weekly_savings > 0 else "ADDITIONAL COST"
+savings_color = "var(--energy-green)" if weekly_savings > 0 else "#FF6B6B"
+savings_text = "SAVINGS" if weekly_savings > 0 else "ADDITIONAL COST"
     
-    st.markdown(f"""
-    <div style="background: {savings_color}; color: white; padding: 1rem; border-radius: 8px; margin: 1rem 0; 
-                text-align: center; font-weight: bold; border: 2px solid var(--charcoal); 
-                box-shadow: 0 6px 12px rgba(0,0,0,0.4);">
-        <h4 style="margin: 0; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">EBOSS® {savings_text}</h4>
-        <p style="margin: 0.5rem 0; font-size: 1.1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.7);">
+st.markdown(f"""
             Weekly: ${abs(weekly_savings):,.2f} | Monthly: ${abs(monthly_savings):,.2f} | Yearly: ${abs(yearly_savings):,.2f}
         </p>
     </div>
@@ -2634,13 +2455,12 @@ Cost Analysis
     
 
     
-    st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
 
 # Footer
 st.markdown('<br><br>', unsafe_allow_html=True)
 st.markdown(f"""
-<div style="text-align: center; color: var(--cool-gray-8c); font-size: 0.9rem; padding: 1rem;">
-    EBOSS® Model Selection Tool | Powered by Advanced Energy Solutions
+    EBOSS Model Selection Tool | Powered by Advanced Energy Solutions
 </div>
 """, unsafe_allow_html=True)
 
