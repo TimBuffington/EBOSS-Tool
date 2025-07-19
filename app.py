@@ -936,14 +936,7 @@ def generator_selection_dialog():
     
     st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown("""
-<div style='text-align:right; margin-bottom: 1rem;'>
-    <button onclick="window.print()" style="background-color: #636569; border: none; color: white; padding: 0.5rem 1.2rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer;">
-        Print Analysis
-    </button>
-</div>
-""", unsafe_allow_html=True)
-
+@st.dialog("
 <div style='text-align:right; margin-bottom: 1rem;'>
     <button onclick="window.print()" style="background-color: #636569; border: none; color: white; padding: 0.5rem 1.2rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer;">
         Print Analysis
@@ -962,11 +955,13 @@ Cost Analysis
  Setup")
 def cost_analysis_dialog():
     """Modal dialog for cost analysis with generator selection and input fields"""
-    paired_gen = EBOSS_STANDARD_PAIRING.get(st.session_state.eboss_model, "25 kVA / 20 kW")
-    
-    # Generator selection section
-    st.markdown(f"""
-    <div style="background: rgba(129, 189, 71, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #81BD47; margin-bottom: 1rem;">
+st.markdown(f"""
+<div style="background: rgba(129, 189, 71, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #81BD47; margin-bottom: 1rem;">
+    <strong>Recommended Generator:</strong><br>
+    For the <strong>{st.session_state.eboss_model}</strong> model: <strong>{paired_gen}</strong>
+</div>
+""", unsafe_allow_html=True)
+
     <strong>Recommended Generator:</strong><br>
     For the <strong>{st.session_state.eboss_model}</strong> model: <strong>{paired_gen}</strong>
     </div>
