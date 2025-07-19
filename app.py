@@ -991,7 +991,7 @@ with fuel_col1:
            local_fuel_price = st.number_input(
     "Local Fuel Price / Gal ($)",
     min_value=0,
-    value=0,
+    value=3.50,
     step=1,
     key="local_fuel_price"
 )
