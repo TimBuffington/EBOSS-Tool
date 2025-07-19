@@ -1243,12 +1243,19 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown("""<div style="padding: 1rem; text-align: center; color: white; font-size: 1.4rem; font-weight: bold; text-transform: uppercase; text-shadow: 2px 2px 4px rgba(0,0,0,0.6);">COST ANALYSIS</div>""", unsafe_allow_html=True)
+st.markdown("""
+<div style="padding: 1rem; text-align: center; color: white; font-size: 1.4rem; font-weight: bold; text-transform: uppercase; text-shadow: 2px 2px 4px rgba(0,0,0,0.6);">
+    COST ANALYSIS
+</div>
+
+<div style="text-align: center; margin-top: 1rem;">
+    <strong style="font-size: 1.2rem; text-transform: uppercase;">
+        COST ANALYSIS
+    </strong>
+</div>
 """, unsafe_allow_html=True)
-</div>
-    <strong style="font-size: 1.2rem; text-transform: uppercase;">COST ANALYSIS</strong>
-</div>
-""", unsafe_allow_html=True
+
+
 
 st.markdown(f"""
 <div style="letter-spacing: 1px; font-family: Arial, sans-serif; font-weight: 700;">
