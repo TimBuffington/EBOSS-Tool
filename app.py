@@ -988,14 +988,14 @@ st.subheader("Parameters")
 st.markdown("**Fuel Information**")
 fuel_col1, fuel_col2 = st.columns([1, 1])
 with fuel_col1:
-            local_fuel_price = st.number_input(
-                "Local Fuel Price / Gal ($)",
-               min_value=1,
-                max_value=1000,
-                value=0,
-                step=1,
-                key="local_fuel_price"
-            )
+           local_fuel_price = st.number_input(
+    "Local Fuel Price / Gal ($)",
+    min_value=0,
+    value=0,
+    step=1,
+    key="local_fuel_price"
+)
+
         
 with fuel_col2:
     fuel_delivery_fee = st.number_input(
@@ -1015,8 +1015,8 @@ with pm_col1:
     pm_interval_hrs = st.number_input(
     "PM Interval Hrs",
     min_value=1,
-                max_value=10000,
-                value=500,
+                max_value=1000,
+                value=0,
                 step=1,
                 key="pm_interval_hrs"
             )
