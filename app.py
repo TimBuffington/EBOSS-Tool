@@ -1003,7 +1003,7 @@ with fuel_col2:
     min_value=-1.00,
                 max_value=1000.00,
                 value=0.00,
-                step=1,
+                step=0.01,
                 key="fuel_delivery_fee"
             )
         
