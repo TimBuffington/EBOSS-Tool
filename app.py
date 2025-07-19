@@ -1,20 +1,20 @@
 
 st.markdown("""
-    <style>
-    .stColumn {
-        flex: 1 1 0%;
-        min-width: 0 !important;
-        max-width: 100% !important;
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-        box-sizing: border-box;
-    }
-    .form-container div {
-        padding: 0.5rem;
-        box-sizing: border-box;
-        max-width: 100%;
-    }
-    </style>
+<style>
+.stColumn {
+    flex: 1 1 0%;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    box-sizing: border-box;
+}
+.form-container div {
+    padding: 0.5rem;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+</style>
 """, unsafe_allow_html=True)
 
     """, unsafe_allow_html=True)
