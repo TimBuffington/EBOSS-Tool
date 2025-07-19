@@ -990,19 +990,19 @@ fuel_col1, fuel_col2 = st.columns([1, 1])
 with fuel_col1:
            local_fuel_price = st.number_input(
     "Local Fuel Price / Gal ($)",
-    min_value=0,
-    value=3.50,
-    step=1,
+    min_value=-1.0,
+    max_value=1000.0,
+    value=0.00,
+    step=0.01,
     key="local_fuel_price"
 )
-
-        
+   
 with fuel_col2:
     fuel_delivery_fee = st.number_input(
     "Fuel Delivery Fee ($)",
-    min_value=1,
-                max_value=1000,
-                value=0,
+    min_value=-1.00,
+                max_value=1000.00,
+                value=0.00,
                 step=1,
                 key="fuel_delivery_fee"
             )
@@ -1014,7 +1014,7 @@ pm_col1, pm_col2 = st.columns([1, 1])
 with pm_col1:
     pm_interval_hrs = st.number_input(
     "PM Interval Hrs",
-    min_value=1,
+    min_value=-1,
                 max_value=1000,
                 value=0,
                 step=1,
