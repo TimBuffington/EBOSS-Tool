@@ -936,7 +936,14 @@ def generator_selection_dialog():
     
     st.markdown('</div>', unsafe_allow_html=True)
 
-@st.dialog("
+st.markdown("""
+<div style='text-align:right; margin-bottom: 1rem;'>
+    <button onclick="window.print()" style="background-color: #636569; border: none; color: white; padding: 0.5rem 1.2rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer;">
+        Print Analysis
+    </button>
+</div>
+""", unsafe_allow_html=True)
+
 <div style='text-align:right; margin-bottom: 1rem;'>
     <button onclick="window.print()" style="background-color: #636569; border: none; color: white; padding: 0.5rem 1.2rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer;">
         Print Analysis
