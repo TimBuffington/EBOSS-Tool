@@ -1003,7 +1003,7 @@ with fuel_col2:
     min_value=0.0,       # float
     max_value=1000.0,    # float
     value=75.0,          # float
-    step=1.0.0,            # float
+    step=1.00,            # float
     format="%.2f",       # show two decimal places
     key="fuel_delivery_fee"
     )
