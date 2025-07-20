@@ -1050,18 +1050,18 @@ with rate_col1:
     st.markdown("**EBOSS Hybrid System**")
     eboss_weekly_rate = st.number_input(
                 "Weekly Rate ($)",
-                min_value=1,
-                max_value=1000,
-                value=0,
-                step=1,
+               min_value=-1.00,
+                max_value=10000.00,
+                value=0.00,
+                step=1.00,
                 key="eboss_weekly_rate"
             )
 eboss_monthly_rate = st.number_input(
                 "Monthly Rate ($)",
-                min_value=1,
-                max_value=1000,
-                value=0,
-                step=1,
+                min_value=-1.00,
+                max_value=10000.00,
+                value=0.00,
+                step=1.00,
                 key="eboss_monthly_rate"
             )
         
@@ -1069,18 +1069,18 @@ with rate_col2:
     st.markdown("**Standard Generator**")
     standard_weekly_rate = st.number_input(
     "Weekly Rate ($)",
-                min_value=1,
-                max_value=1000,
-                value=0,
-                step=1,
+                min_value=-1.00,
+                max_value=10000.00,
+                value=0.00,
+                step=1.00,
                 key="standard_weekly_rate"
             )
 standard_monthly_rate = st.number_input(
                 "Monthly Rate ($)",
-                min_value=0.0,
-                max_value=200000.0,
-                value=0.0,
-                step=0.1,
+               min_value=-1.00,
+                max_value=10000.00,
+                value=0.00,
+                step=1.00,
                 format="%.2f",
                 key="standard_monthly_rate"
             )
