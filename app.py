@@ -1,7 +1,7 @@
 
 import streamlit as st
 
-st.markdown("""
+st.markdown(f"""
 <style>
 .stColumn {
     flex: 1 1 0%;
@@ -946,7 +946,7 @@ def generator_selection_dialog():
     ">
         Contact us for more details
     </a>
-</div>
+
 """, unsafe_allow_html=True)
 def cost_analysis_dialog():
     """Modal dialog for cost analysis with generator selection and input fields"""
@@ -956,7 +956,7 @@ def cost_analysis_dialog():
     st.markdown("""
     <strong>Recommended Generator:</strong><br>
     For the <strong>{st.session_state.eboss_model}</strong> model: <strong>{paired_gen}</strong>
-</div>
+
 """, unsafe_allow_html=True)
     
     gen_col1, gen_col2 = st.columns([1, 1])
@@ -1003,7 +1003,7 @@ with fuel_col2:
     min_value=0.0,       # float
     max_value=1000.0,    # float
     value=75.0,          # float
-    step=1.0,            # float
+    step=1.0.0,            # float
     format="%.2f",       # show two decimal places
     key="fuel_delivery_fee"
     )
@@ -1015,10 +1015,10 @@ pm_col1, pm_col2 = st.columns([1, 1])
 with pm_col1:
     pm_interval_hrs = st.number_input(
     "PM Interval Hrs",
-    min_value=-1,
+    min_value=0,
                 max_value=1000,
                 value=0,
-                step=1,
+                step=1.0,
                 key="pm_interval_hrs"
             )
         
@@ -1261,7 +1261,7 @@ st.markdown("""
     font-size: 1.6rem; font-weight: bold; text-transform: uppercase;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.6);">
     COST ANALYSIS
-</div>
+
 """, unsafe_allow_html=True)
 
 
@@ -1270,7 +1270,7 @@ title = "Cost Analysis"
 st.markdown(f"""
 <div style="text-align:center; font-size: 1.4rem; font-weight: bold;">
     {title}
-</div>
+
 """, unsafe_allow_html=True)
 
 
@@ -1284,7 +1284,7 @@ st.markdown('</div>', unsafe_allow_html=True)
 
 # Title in styled container
 st.markdown('''
-</div>
+
 ''', unsafe_allow_html=True)
 
 # Create two columns for layout
@@ -1344,7 +1344,7 @@ with col2:
             min_value=0,
             max_value=500,
             value=0 if st.session_state.continuous_load is None else int(st.session_state.continuous_load) if st.session_state.continuous_load == int(st.session_state.continuous_load) else st.session_state.continuous_load,
-            step=1,
+            step=1.0,
             key="continuous_load_input"
         )
         st.session_state.continuous_load = continuous_load
@@ -1355,7 +1355,7 @@ with col2:
             min_value=0,
             max_value=500,
             value=0 if st.session_state.max_peak_load is None else int(st.session_state.max_peak_load) if st.session_state.max_peak_load == int(st.session_state.max_peak_load) else st.session_state.max_peak_load,
-            step=1,
+            step=1.0,
             key="max_peak_load_input"
         )
         st.session_state.max_peak_load = max_peak_load
@@ -1421,14 +1421,14 @@ with button_col4:
                 Contact us
             </button>
         </a>
-    </div>
+
     """, unsafe_allow_html=True)
 
 st.markdown("""
     <button onclick="window.print()" style="background-color: #636569; border: none; color: white; padding: 0.5rem 1.2rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer;">
         Print Analysis
     </button>
-</div>
+
 
 """, unsafe_allow_html=True)
 st.markdown("""
@@ -1442,7 +1442,7 @@ st.markdown("""
             Contact us for more details
         </button>
     </a>
-</div>
+
 """, unsafe_allow_html=True)
 
 if (st.session_state.eboss_model and st.session_state.eboss_type and 
@@ -1531,14 +1531,14 @@ if st.session_state.show_specs and st.session_state.eboss_model:
                 # Section header
                 st.markdown(f"""
                     <strong style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; font-family: Arial, sans-serif;">{section_name}</strong>
-                </div>
+
                 """, unsafe_allow_html=True)
                 
                 # Section specs
                 for spec_name in section_specs:
                     if spec_name in specs:
                         st.markdown(f"""
-                        </div>
+
                         """, unsafe_allow_html=True)
         
         with spec_col2:
@@ -1547,7 +1547,7 @@ if st.session_state.show_specs and st.session_state.eboss_model:
                 # Section header (matching left column)
                 st.markdown(f"""
                     <strong style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; font-family: Arial, sans-serif;">{section_name}</strong>
-                </div>
+
                 """, unsafe_allow_html=True)
                 
                 # Section values
@@ -1555,7 +1555,7 @@ if st.session_state.show_specs and st.session_state.eboss_model:
                     if spec_name in specs:
                         spec_value = specs[spec_name]
                         st.markdown(f"""
-                        </div>
+
                         """, unsafe_allow_html=True)
         
         # User input override section
@@ -1568,14 +1568,14 @@ if st.session_state.show_specs and st.session_state.eboss_model:
                 st.markdown(f"""
                     <strong>Continuous Load</strong><br>
                     <span style="font-size: 1.5rem; font-weight: bold;">{st.session_state.continuous_load} kW</span>
-                </div>
+
                 """, unsafe_allow_html=True)
             
             with load_col2:
                 st.markdown(f"""
                     <strong>Max Peak Load</strong><br>
                     <span style="font-size: 1.5rem; font-weight: bold;">{st.session_state.max_peak_load} kW</span>
-                </div>
+
                 """, unsafe_allow_html=True)
     
     st.markdown('</div>', unsafe_allow_html=True)
@@ -1701,7 +1701,7 @@ elif st.session_state.show_load_specs and st.session_state.eboss_model and st.se
             # Single header spanning both columns
             st.markdown(f"""
                 <strong style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; font-family: Arial, sans-serif;">{section_name}</strong>
-            </div>
+
             """, unsafe_allow_html=True)
             
             # Create two columns for this section's content
@@ -1711,7 +1711,7 @@ elif st.session_state.show_load_specs and st.session_state.eboss_model and st.se
                 # Section specs
                 for spec_name, spec_value in section_items:
                     st.markdown(f"""
-                    </div>
+
                     """, unsafe_allow_html=True)
             
             with section_col2:
@@ -1728,7 +1728,7 @@ elif st.session_state.show_load_specs and st.session_state.eboss_model and st.se
                         
                         with change_col1:
                             st.markdown(f"""
-                            </div>
+
                             """, unsafe_allow_html=True)
                         
                         with change_col2:
@@ -1742,7 +1742,7 @@ elif st.session_state.show_load_specs and st.session_state.eboss_model and st.se
                                 st.rerun()
                     else:
                         st.markdown(f"""
-                        </div>
+
                         """, unsafe_allow_html=True)
         
         # Generator selection display if applicable
@@ -1751,7 +1751,7 @@ elif st.session_state.show_load_specs and st.session_state.eboss_model and st.se
             st.markdown(f"""
                 <strong>Selected Generator: {st.session_state.generator_kva}</strong><br>
                 <span style="font-size: 0.9rem;">Power Module Configuration</span>
-            </div>
+
             """, unsafe_allow_html=True)
     
     st.markdown('</div>', unsafe_allow_html=True)
@@ -1910,25 +1910,25 @@ elif st.session_state.get('show_comparison', False) and st.session_state.eboss_m
             with col1:
                 st.markdown("""
                     <strong style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; font-family: Arial, sans-serif;">SPECIFICATION</strong>
-                </div>
+
                 """, unsafe_allow_html=True)
             
             with col2:
                 st.markdown(f"""
                     <strong style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; font-family: Arial, sans-serif;">EBOSS {st.session_state.eboss_model}</strong>
-                </div>
+
                 """, unsafe_allow_html=True)
             
             with col3:
                 st.markdown(f"""
                     <strong style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; font-family: Arial, sans-serif;">STANDARD {st.session_state.standard_generator}</strong>
-                </div>
+
                 """, unsafe_allow_html=True)
             
             with col4:
                 st.markdown("""
                     <strong style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; font-family: Arial, sans-serif;">DIFFERENCE</strong>
-                </div>
+
                 """, unsafe_allow_html=True)
         
             # Calculate EBOSS fuel consumption values
@@ -2233,7 +2233,7 @@ elif st.session_state.get('show_comparison', False) and st.session_state.eboss_m
                                      font-weight: 700;">
                             {eboss_value}
                         </strong>
-                    </div>
+
                     """, unsafe_allow_html=True)
                     
                     # Restart column layout for next rows
@@ -2242,19 +2242,19 @@ elif st.session_state.get('show_comparison', False) and st.session_state.eboss_m
                     # Regular data row
                     with col1:
                         st.markdown(f"""
-                        </div>
+
                         """, unsafe_allow_html=True)
                     
                     with col2:
                         eboss_display = eboss_value if eboss_value and str(eboss_value).strip() and str(eboss_value) != "N/A" else "N/A"
                         st.markdown(f"""
-                        </div>
+
                         """, unsafe_allow_html=True)
                     
                     with col3:
                         standard_display = standard_value if standard_value and str(standard_value).strip() and str(standard_value) != "N/A" else "N/A"
                         st.markdown(f"""
-                        </div>
+
                         """, unsafe_allow_html=True)
                     
                     with col4:
@@ -2262,7 +2262,7 @@ elif st.session_state.get('show_comparison', False) and st.session_state.eboss_m
                         formatted_diff, difference_color = format_difference_value(difference, spec_name)
                         
                         st.markdown(f"""
-                        </div>
+
                         """, unsafe_allow_html=True)
     else:
         st.markdown('<div class="info-box">Please select a standard generator above to view the comparison.</div>', unsafe_allow_html=True)
@@ -2274,7 +2274,7 @@ st.maekdowm(""")
     <button onclick="window.print()" style="background-color: #636569; border: none; color: white; padding: 0.5rem 1.2rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer;">
         Print Analysis
     </button>
-</div>
+
             """, unsafe_allow_html=True)
 
 st.markdown("""
@@ -2288,7 +2288,7 @@ st.markdown("""
             Contact us for more details
         </button>
     </a>
-</div>
+
 """, unsafe_allow_html=True)
 
 if st.session_state.show_cost_analysis and st.session_state.eboss_model:
@@ -2300,7 +2300,7 @@ st.markdown("""
     <button onclick="window.print()" style="background-color: #636569; border: none; color: white; padding: 0.5rem 1.2rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer;">
         Print Analysis
     </button>
-</div>
+
 
 """, unsafe_allow_html=True)
 st.markdown("""
@@ -2314,7 +2314,7 @@ st.markdown("""
             Contact us for more details
         </button>
     </a>
-</div>
+
 """, unsafe_allow_html=True)
 
     
@@ -2325,7 +2325,7 @@ if st.button("✕ Close"):
         <button onclick="window.print()" style="background-color: #636569; border: none; color: white; padding: 0.5rem 1.2rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer;">
             Print Analysis
         </button>
-    </div>
+
     """, unsafe_allow_html=True)
 
 if st.button("✕ Close Cost Analysis", key="close_cost_analysis"):
@@ -2455,7 +2455,7 @@ st.markdown(f"""
                 </tr>
             </tbody>
         </table>
-    </div>
+
     """, unsafe_allow_html=True)
     
     # Cost savings summary
@@ -2469,7 +2469,7 @@ savings_text = "SAVINGS" if weekly_savings > 0 else "ADDITIONAL COST"
 st.markdown(f"""
             Weekly: ${abs(weekly_savings):,.2f} | Monthly: ${abs(monthly_savings):,.2f} | Yearly: ${abs(yearly_savings):,.2f}
         </p>
-    </div>
+
     """, unsafe_allow_html=True)
     
 
@@ -2480,7 +2480,7 @@ st.markdown('</div>', unsafe_allow_html=True)
 st.markdown('<br><br>', unsafe_allow_html=True)
 st.markdown(f"""
     EBOSS Model Selection Tool | Powered by Advanced Energy Solutions
-</div>
+
 """, unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
