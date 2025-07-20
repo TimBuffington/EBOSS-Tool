@@ -1265,7 +1265,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-
+title = "Cost Analysis"
 
 st.markdown(f"""
 <div style="text-align:center; font-size: 1.4rem; font-weight: bold;">
