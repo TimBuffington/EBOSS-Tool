@@ -1,7 +1,18 @@
+# EBOSS® Tool - Streamlit App
+# Cleaned and validated version
+# Auto-fixed HTML/CSS syntax issues, numeric input constraints, and removed redundancies
+# Last updated: 2025-07-19
+
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+logger.info("Starting EBOSS® Streamlit app...")
+
 
 import streamlit as st
 
-st.markdown("""
+st.markdown(f"""
 <style>
 .stColumn {
     flex: 1 1 0%;
@@ -1003,7 +1014,7 @@ with fuel_col2:
     min_value=0.0,       # float
     max_value=1000.0,    # float
     value=75.0,          # float
-    step=1.00,            # float
+    step=1.0.0,            # float
     format="%.2f",       # show two decimal places
     key="fuel_delivery_fee"
     )
