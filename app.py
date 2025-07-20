@@ -1,7 +1,7 @@
 
 import streamlit as st
 
-st.markdown(f"""
+st.markdown("""
 <style>
 .stColumn {
     flex: 1 1 0%;
