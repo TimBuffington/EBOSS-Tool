@@ -1272,6 +1272,7 @@ st.markdown(f"""
     {title}
 </div>
 """, unsafe_allow_html=True)
+
 # Main container
 st.markdown('<div class="main-container">', unsafe_allow_html=True)
 
