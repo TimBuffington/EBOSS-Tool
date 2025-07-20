@@ -1268,10 +1268,11 @@ st.markdown("""
 
 
 st.markdown(f"""
-<div style="letter-spacing: 1px; font-family: Arial, sans-serif; font-weight: 700;">
+<div style="text-align:center; font-size: 1.4rem; font-weight: bold;">
     {title}
 </div>
 """, unsafe_allow_html=True)
+
 
 # Main container
 st.markdown('<div class="main-container">', unsafe_allow_html=True)
