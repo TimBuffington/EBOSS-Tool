@@ -1,4 +1,3 @@
-
 [theme]
-base="dark"
-primaryColor="#81BD47"
+base='dark'
+primaryColor='#81BD47'
