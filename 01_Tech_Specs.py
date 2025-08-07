@@ -1,1 +1,0 @@
-# Technical specs page placeholder
