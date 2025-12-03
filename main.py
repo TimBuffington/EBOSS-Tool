@@ -24,7 +24,7 @@ def set_background():
     """
     st.markdown(css, unsafe_allow_html=True)
 
-set_background()
+#set_background()
 
 # Load logo
 #st.image("logo.png", width=250)
