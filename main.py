@@ -27,7 +27,7 @@ def set_background():
 set_background()
 
 # Load logo
-st.image("logo.png", width=250)
+#st.image("logo.png", width=250)
 
 # Title
 st.markdown("<h1 style='text-align: center; color: #81BD47;'>Welcome to the EBOSS® Tool</h1>", unsafe_allow_html=True)
