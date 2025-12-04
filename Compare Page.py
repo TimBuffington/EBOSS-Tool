@@ -1,5 +1,5 @@
 
-import streamlit as st
+def tech_specs
 from spec_data import spec_data
 
 st.title("Tech Specs Comparison")
