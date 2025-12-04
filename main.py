@@ -3,7 +3,8 @@ import streamlit as st
 from PIL import Image
 import base64
 import os
-import Compare Page.py
+from tech_specs.py import tech_specs
+
 
 
 st.set_page_config(page_title="EBOSS Tool", layout="wide", initial_sidebar_state="collapsed")
