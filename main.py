@@ -3,6 +3,8 @@ import streamlit as st
 from PIL import Image
 import base64
 import os
+import Compare Page.py
+
 
 st.set_page_config(page_title="EBOSS Tool", layout="wide", initial_sidebar_state="collapsed")
 
@@ -73,7 +75,7 @@ if st.session_state.show_tools:
 
     if nav == "Compare Specs":
         st.title("Compare Specs")
-        st.write("Dropdown-based model spec comparison will be rendered here.")
+        
     elif nav == "Cost Analysis":
         st.title("Cost Analysis")
         st.write("Rental rate, fuel cost, and total weekly cost calculations.")
